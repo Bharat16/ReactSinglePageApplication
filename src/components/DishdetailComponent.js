@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
-import dateFormat from 'dateformat';
 
 class DishDetail extends Component {
     constructor(props) {
@@ -27,7 +26,7 @@ class DishDetail extends Component {
     renderComments(comments) {
         if (comments != null) {
             return (
-                <div>
+                <div className="list-unstyled">
                     <Card>
                         <CardBody>
                             <h4>Comments</h4>
@@ -37,7 +36,7 @@ class DishDetail extends Component {
                                         <div>
                                             <div>{comment.comment}</div>
                                             <br />
-                                            <div>-- {comment.author}, {dateFormat(comment.date, "mmmm dS, yyyy")}                                            
+                                            <div>-- {comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}
                                             </div>
                                             <br />
                                         </div>
@@ -54,15 +53,19 @@ class DishDetail extends Component {
 
     }
     render() {
+        console.log(this.props);
         return (
-            <div className="row">
-                <div className="col-12 col-md-5 m-1">
-                    {this.renderDish(this.props.selectedDish)}
-                </div>
-                <div className="col-12 col-md-5 m-1">
-                    {this.props.selectedDish != null ? this.renderComments(this.props.selectedDish.comments) : <div></div>}
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        {this.renderDish(this.props.dish)}
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        {this.props.dish != null ? this.renderComments(this.props.dish.comments) : <div></div>}
+                    </div>
                 </div>
             </div>
+
         );
     }
 }
